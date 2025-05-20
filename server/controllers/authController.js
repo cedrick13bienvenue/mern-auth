@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
-import { response } from "express";
 import transporter from "../config/nodemailer.js";
 
 export const register = async (req, res) => {
