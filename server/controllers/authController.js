@@ -112,3 +112,10 @@ export const logout = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+export const sendVerifyOtp = async (req, res) => {
+  try {
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
