@@ -126,6 +126,8 @@ export const sendVerifyOtp = async (req, res) => {
     }
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    user.sendVerifyOtp = otp;
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
