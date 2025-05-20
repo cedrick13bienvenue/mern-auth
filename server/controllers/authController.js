@@ -128,6 +128,8 @@ export const sendVerifyOtp = async (req, res) => {
     const otp = String(Math.floor(100000 + Math.random() * 900000));
 
     user.verifyOtp = otp;
+
+    user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
