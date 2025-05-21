@@ -130,6 +130,7 @@ export const sendVerifyOtp = async (req, res) => {
     user.verifyOtp = otp;
 
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
+    await user.save();
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
