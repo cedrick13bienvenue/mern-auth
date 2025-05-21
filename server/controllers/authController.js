@@ -148,5 +148,21 @@ export const sendVerifyOtp = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  const { userID } = req.body;
+  const { userID, otp } = req.body;
+
+  if (!userID || !otp) {
+    return res.json({ success: false, message: "Missing Details" });
+  }
+  try {
+    const user = await userModel.findById(userID);
+
+    if (!user) {
+      return res.json({ sucess: false, message: "User not found" });
+    }
+    if (user.verifyOtp === "" || user.verifyOtp !== otp) {
+      res.json({ success: false, message: "Invalid OTP" });
+    }
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
 };
