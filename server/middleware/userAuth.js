@@ -17,7 +17,11 @@ const userAuth = async (req, res, next) => {
         message: "Not Authorized. Login Again",
       });
     }
+
+    next();
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
+
+export default userAuth;
