@@ -168,7 +168,10 @@ export const verifyEmail = async (req, res) => {
     }
     user.isAccountVerified = true;
     user.verifyOtp = "";
-    yser.verifyOtpExpireAt = 0;
+    user.verifyOtpExpireAt = 0;
+
+    await user.save();
+    return res.json({ success: true, message: "Email verified successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
