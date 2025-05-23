@@ -4,23 +4,32 @@ const userAuth = async (req, res, next) => {
   const { token } = req.cookies;
 
   if (!token) {
-    return res.json({ success: false, message: "Not Authotized. Login Again" });
+    return res.status(401).json({
+      success: false,
+      message: "Not Authorized. Login Again",
+    });
   }
 
   try {
-    const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
-    if (tokenDecode.id) {
-      req.body.userId = tokenDecode.id;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded.id) {
+      // Attach user info to req.user instead of modifying req.body
+      req.user = { id: decoded.id };
+      // Also add userId directly to req for backward compatibility
+      req.userId = decoded.id;
+      next();
     } else {
-      return res.json({
+      return res.status(401).json({
         success: false,
         message: "Not Authorized. Login Again",
       });
     }
-
-    next();
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token. Please login again.",
+    });
   }
 };
 
