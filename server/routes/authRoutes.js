@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getMe,
   login,
   logout,
   register,
@@ -18,5 +19,6 @@ authRouter.post("/logout", logout);
 // Protected routes (require authentication)
 authRouter.post("/send-verify-otp", userAuth, sendVerifyOtp);
 authRouter.post("/verify-account", userAuth, verifyEmail);
+authRouter.get("/me", userAuth, getMe);
 
 export default authRouter;

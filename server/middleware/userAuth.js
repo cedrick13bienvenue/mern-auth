@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 
 const userAuth = async (req, res, next) => {
-  const { token } = req.cookies;
+  const header = req.header("authorization");
+  const token = header ? header.split(" ")[1] : undefined;
 
   if (!token) {
     return res.status(401).json({
@@ -14,8 +15,6 @@ const userAuth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (decoded.id) {
-      // Attach user info to req.user instead of modifying req.body
-      req.user = { id: decoded.id };
       // Also add userId directly to req for backward compatibility
       req.userId = decoded.id;
       next();
