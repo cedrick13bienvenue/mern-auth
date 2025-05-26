@@ -306,3 +306,36 @@ export const sendResetOtp = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.json({ success: false, message: "Missing Details" });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if (user.resetOtp === "" || user.resetOtp !== otp) {
+      return res.json({ success: false, message: "Invalid OTP" });
+    }
+
+    if (user.resetOtpExpireAt < Date.now()) {
+      return res.json({ success: false, message: "OTP expired" });
+    }
+
+    user.hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = user.hashedPassword; // Update the password field
+    user.resetOtp = "";
+    user.resetOtpExpireAt = 0;
+
+    await user.save();
+    return res.json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
