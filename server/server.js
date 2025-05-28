@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
-import connectDB from "./config/mondodb.js";
+import connectDB from "./config/mondodb.js"; // Match your existing file name
 import authRouter from "./routes/authRoutes.js";
-import userAuth from "./middleware/userAuth.js";
+import userRouter from "./routes/userRoutes.js";
+
 const app = express();
 const port = process.env.PORT || 4000;
+
 connectDB();
 
 app.use(express.json());
@@ -16,5 +18,6 @@ app.use(cors({ credentials: true }));
 // API EndPoints
 app.get("/", (req, res) => res.send("API Working"));
 app.use("/api/auth", authRouter);
-app.use("/api/user", userAuth);
+app.use("/api/user", userRouter);
+
 app.listen(port, () => console.log(`Server started on PORT: ${port}`));
