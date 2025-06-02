@@ -21,15 +21,17 @@ const Login = () => {
             : "Login into your account"}
         </p>
         <form>
-          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
-            <img src={assets.person_icon} alt="" />
-            <input
-              className="bg-transparent outline-none"
-              type="text"
-              placeholder="Full Name"
-              required
-            />
-          </div>
+          {state === "Sign Up" && (
+            <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+              <img src={assets.person_icon} alt="" />
+              <input
+                className="bg-transparent outline-none"
+                type="text"
+                placeholder="Full Name"
+                required
+              />
+            </div>
+          )}
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
             <img src={assets.mail_icon} alt="" />
             <input
@@ -55,19 +57,21 @@ const Login = () => {
             {state}
           </button>
         </form>
-
-        <p className="text-gray-400 text-center text-xs mt-4">
-          Already have an account?{" "}
-          <span className="text-blue-400 cursor-pointer underline">
-            Login here
-          </span>
-        </p>
-        <p className="text-gray-400 text-center text-xs mt-4">
-          Don't have an account?{" "}
-          <span className="text-blue-400 cursor-pointer underline">
-            Sign-Up
-          </span>
-        </p>
+        {state === "Sign Up" ? (
+          <p className="text-gray-400 text-center text-xs mt-4">
+            Already have an account?{" "}
+            <span className="text-blue-400 cursor-pointer underline">
+              Login here
+            </span>
+          </p>
+        ) : (
+          <p className="text-gray-400 text-center text-xs mt-4">
+            Don't have an account?{" "}
+            <span className="text-blue-400 cursor-pointer underline">
+              Sign-Up
+            </span>
+          </p>
+        )}
       </div>
     </div>
   );
