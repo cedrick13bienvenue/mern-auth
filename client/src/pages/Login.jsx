@@ -55,6 +55,13 @@ const Login = () => {
             {state}
           </button>
         </form>
+
+        <p className="text-gray-400 text-center text-xs mt-4">
+          Already have an account?{" "}
+          <span className="text-blue-400 cursor-pointer underline">
+            Login here
+          </span>
+        </p>
       </div>
     </div>
   );
