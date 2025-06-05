@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
