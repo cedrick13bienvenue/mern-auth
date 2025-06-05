@@ -3,6 +3,7 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,11 +27,13 @@ const Login = () => {
           setIsLoggedin(true);
           navigate("/");
         } else {
-          alert(data.message);
+          toast.error(data.message);
         }
       } else {
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   return (
