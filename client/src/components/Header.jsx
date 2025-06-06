@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets";
+import { AppContent } from "../context/AppContext";
 
 // This is the header section users see when they first land
 const Header = () => {
+  const { userData } = useContext(AppContent);
+
   return (
     <div className="flex flex-col items-center mt-20 px-4 text-center text-gray-800">
       {/* Profile-like header image */}
@@ -14,7 +17,7 @@ const Header = () => {
 
       {/* Greeting text with a waving hand image */}
       <h1 className="flex items-center gap-2 text-xl sm:text-3xl font-medium mb-2">
-        Hi there!
+        Hi {userData ? userData.name : "there!"}
         <img
           className="w-8 aspect-square"
           src={assets.hand_wave}
