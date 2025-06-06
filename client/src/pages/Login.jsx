@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   // Getting backend URL and login status setter from context
-  const { backendUrl, setIsLoggedin } = useContext(AppContent);
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContent);
 
   // Which form state we're in: "Sign Up" or "Login"
   const [state, setState] = useState("Sign Up");
