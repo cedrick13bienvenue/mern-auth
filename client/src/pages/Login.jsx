@@ -37,6 +37,7 @@ const Login = () => {
         // If signup is successful
         if (data.success) {
           setIsLoggedin(true);
+          getUserData();
           navigate("/"); // Go to homepage
         } else {
           toast.error(data.message); // Show error if backend says so
@@ -51,6 +52,7 @@ const Login = () => {
         // If login is successful
         if (data.success) {
           setIsLoggedin(true);
+          getUserData();
           navigate("/");
         } else {
           toast.error(data.message); // Show backend message if login failed
