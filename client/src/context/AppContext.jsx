@@ -9,6 +9,14 @@ export const AppContextProvider = (props) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userData, setUserData] = useState(false);
 
+  const getAuthState = async ()=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
   const getUserData = async () => {
     try {
       // Get the token from localStorage
@@ -33,6 +41,8 @@ export const AppContextProvider = (props) => {
       console.error("getUserData error:", error);
     }
   };
+
+
 
   const value = {
     backendUrl,
