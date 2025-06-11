@@ -11,10 +11,26 @@ export const AppContextProvider = (props) => {
 
   const getUserData = async () => {
     try {
-      const { data } = await axios.get(backendUrl + "/api/user/data");
+      // Get the token from localStorage
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        toast.error("No authentication token found. Please login again.");
+        return;
+      }
+
+      // Add authorization header with the token
+      const { data } = await axios.get(backendUrl + "/api/user/data", {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
+      
       data.success ? setUserData(data.userData) : toast.error(data.message);
-    } catch {
-      toast.error(data.message);
+    } catch (error) {
+      // Fix: Use 'error' instead of 'data' in catch block
+      toast.error(error.response?.data?.message || "Failed to fetch user data");
+      console.error("getUserData error:", error);
     }
   };
 
