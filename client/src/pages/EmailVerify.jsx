@@ -17,6 +17,22 @@ const EmailVerify = () => {
         <p className="text-center mb-6 text-indigo-300">
           Enter the 6-digit code sent to your email ID
         </p>
+        <div className="flex justify-between mb-8">
+          {Array(6)
+            .fill(0)
+            .map((_, index) => (
+              <input
+                type="text"
+                maxLength="1"
+                key={index}
+                required
+                className="w-12 h-12 bg-[#333A5C] text-white text-center text-xl rounded-md"
+              />
+            ))}
+        </div>
+        <button className="w-full py-3 bg-gradient-to-r from-indigo-500 to-indigo-900 text-white rounded-full">
+          Verify Email
+        </button>
       </form>
     </div>
   );
