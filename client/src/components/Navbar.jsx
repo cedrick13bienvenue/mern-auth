@@ -10,16 +10,73 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { userData, backendUrl, setUserData, setIsLoggedin } =
     useContext(AppContent);
+
+  const sendVerificationOtp = async () => {
+    try {
+      // Get the token from localStorage
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Authentication required. Please login again.");
+        navigate("/login");
+        return;
+      }
+
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/send-verify-otp",
+        {}, // Empty body since this is likely just triggering OTP send
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        navigate("/email-verify");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to send verification OTP"
+      );
+    }
+  };
+
   const logout = async () => {
     try {
-      axios.defaults.withCredentials = true;
+      const token = localStorage.getItem("token");
 
-      const { data } = await axios.post(backendUrl + "/api/auth/logout");
-      data.success && setIsLoggedin(false);
-      data.success && setUserData(false);
+      if (token) {
+        // Include token in logout request if available
+        await axios.post(
+          backendUrl + "/api/auth/logout",
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
+      // Clear local storage and state regardless of API response
+      localStorage.removeItem("token");
+      setIsLoggedin(false);
+      setUserData(false);
       navigate("/");
+      toast.success("Logged out successfully");
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      // Even if logout API fails, clear local state
+      localStorage.removeItem("token");
+      setIsLoggedin(false);
+      setUserData(false);
+      navigate("/");
+      toast.error(
+        error?.response?.data?.message || "Logout completed with errors"
+      );
     }
   };
   return (
@@ -31,7 +88,10 @@ const Navbar = () => {
           <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10">
             <ul className="list none m-0 p-2 bg-gray-100 text-sm">
               {!userData.isAccountVerified && (
-                <li className="py-1 px-2 hover:bg-gray-200 cursor-pointer">
+                <li
+                  onClick={sendVerificationOtp}
+                  className="py-1 px-2 hover:bg-gray-200 cursor-pointer"
+                >
                   Verify Email
                 </li>
               )}
