@@ -8,6 +8,11 @@ const EmailVerify = () => {
       inputRefs.current[index + 1].focus();
     }
   };
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && e.target.value === "" && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen  bg-gradient-to-br from-blue-200 to-purple-400">
