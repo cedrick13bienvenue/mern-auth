@@ -14,6 +14,12 @@ const Navbar = () => {
       {userData ? (
         <div className="w-8 h-8 flex justify-center items-center rounded-full bg-black text-white relative group">
           {userData.name[0].toUpperCase()}
+          <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10">
+            <ul>
+              <li>Verify email</li>
+              <li>Logout</li>
+            </ul>
+          </div>
         </div>
       ) : (
         <button
