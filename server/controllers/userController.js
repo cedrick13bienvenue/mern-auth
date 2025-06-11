@@ -2,7 +2,8 @@ import userModel from "../models/userModel.js";
 
 export const getUserData = async (req, res) => {
   try {
-    const { userId } = req.body;
+    // Change this line - use req.userId instead of req.body.userId
+    const userId = req.userId; // This comes from your userAuth middleware
 
     // Add validation
     if (!userId) {
