@@ -21,49 +21,59 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   // What happens when user submits the form
-  const onSubmitHandler = async (e) => {
-    e.preventDefault(); // prevent the page from refreshing
-    axios.defaults.withCredentials = true; // allow cookies to be sent
+ const onSubmitHandler = async (e) => {
+  e.preventDefault();
+  axios.defaults.withCredentials = true;
 
-    try {
-      if (state === "Sign Up") {
-        // Sending signup data to backend
-        const { data } = await axios.post(backendUrl + "/api/auth/register", {
-          name,
-          email,
-          password,
-        });
+  try {
+    if (state === "Sign Up") {
+      const { data } = await axios.post(backendUrl + "/api/auth/register", {
+        name,
+        email,
+        password,
+      });
 
-        // If signup is successful
-        if (data.success) {
-          setIsLoggedin(true);
-          getUserData();
-          navigate("/"); // Go to homepage
-        } else {
-          toast.error(data.message); // Show error if backend says so
+      if (data.success) {
+        console.log('Register response:', data); // 🔍 Debug what's returned
+        
+        // Store token if it exists
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          console.log('Token stored:', data.token);
         }
+        
+        setIsLoggedin(true);
+        await getUserData(); // Add await
+        navigate("/");
       } else {
-        // Sending login data to backend
-        const { data } = await axios.post(backendUrl + "/api/auth/login", {
-          email,
-          password,
-        });
-
-        // If login is successful
-        if (data.success) {
-          setIsLoggedin(true);
-          getUserData();
-          navigate("/");
-        } else {
-          toast.error(data.message); // Show backend message if login failed
-        }
+        toast.error(data.message);
       }
-    } catch (error) {
-      // Show proper error message if backend responds with an error
-      toast.error(error?.response?.data?.message || "Something went wrong");
-    }
-  };
+    } else {
+      const { data } = await axios.post(backendUrl + "/api/auth/login", {
+        email,
+        password,
+      });
 
+      if (data.success) {
+        console.log('Login response:', data); // 🔍 Debug what's returned
+        
+        // Store token if it exists
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          console.log('Token stored:', data.token);
+        }
+        
+        setIsLoggedin(true);
+        await getUserData(); // Add await
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  }
+};
   return (
     <div className="flex items-center justify-center min-h-screen sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400">
       {/* App Logo */}
