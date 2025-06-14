@@ -16,6 +16,31 @@ const authRouter = express.Router();
 
 // Public routes
 authRouter.post("/register", register);
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     tags:
+ *       - auth
+ *     description: Login
+ *     parameters:
+ *       - name: body
+ *         description: User fields
+ *         in: body
+ *         schema:
+ *           properties:
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *           required:
+ *             - password
+ *             - email
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 authRouter.post("/login", login);
 authRouter.post("/logout", logout);
 
@@ -25,6 +50,20 @@ authRouter.post("/verify-account", userAuth, verifyEmail);
 authRouter.get("/is-auth", userAuth, isAuthenticated);
 authRouter.post("/send-reset-otp", sendResetOtp);
 authRouter.post("/reset-password", resetPassword);
+
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     tags:
+ *       - auth
+ *     description: Returns the homepage
+ *     security:
+ *       - bearerAuth: -[]
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 authRouter.get("/me", userAuth, getMe);
 
 export default authRouter;
