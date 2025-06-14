@@ -10,7 +10,17 @@ userRouter.post("/data", userAuth, getUserData);
 // GET route for getUserData (new)
 userRouter.get("/data", userAuth, getUserData);
 
-// Helper route to see all users (for testing - remove in production)
+/**
+ * @swagger
+ * /user/all:
+ *   get:
+ *     tags:
+ *       - User
+ *     description: Returns the homepage
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 userRouter.get("/all", getAllUsers);
 
 export default userRouter;
