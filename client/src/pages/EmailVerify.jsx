@@ -3,11 +3,15 @@ import { assets } from "../assets/assets";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContent } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const EmailVerify = () => {
   axios.defaults.withCredentials = true;
   const { backendUrl, isLoggedIn, userData, getUserData } =
     useContext(AppContent);
+
+  const navigate = useNavigate();
+
   const inputRefs = React.useRef([]);
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
@@ -43,8 +47,13 @@ const EmailVerify = () => {
       if (data.success) {
         toast.success(data.message);
         getUserData();
+        navigate("/");
+      } else {
+        toast.error(data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   return (
