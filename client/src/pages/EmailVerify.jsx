@@ -26,6 +26,7 @@ const EmailVerify = () => {
 
   const onSubmitHandler = async (e) => {
     try {
+      e.preventDefault();
     } catch (error) {}
   };
 
