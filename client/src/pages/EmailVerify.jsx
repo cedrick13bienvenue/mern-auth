@@ -28,6 +28,7 @@ const EmailVerify = () => {
     try {
       e.preventDefault();
       const otpArray = inputRefs.current.map((e) => e.value);
+      const otp = otpArray.join("");
     } catch (error) {}
   };
 
