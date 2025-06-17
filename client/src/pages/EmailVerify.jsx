@@ -4,20 +4,20 @@ import axios from "axios";
 import { useContext } from "react";
 import { AppContent } from "../context/AppContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EmailVerify = () => {
-  axios.defaults.withCredentials = true;
-  const { backendUrl, isLoggedIn, userData, getUserData } =
+  const { backendUrl, isLoggedin, userData, getUserData } =
     useContext(AppContent);
-
   const navigate = useNavigate();
-
   const inputRefs = React.useRef([]);
+
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1].focus();
     }
   };
+
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && e.target.value === "" && index > 0) {
       inputRefs.current[index - 1].focus();
@@ -40,10 +40,25 @@ const EmailVerify = () => {
       const otpArray = inputRefs.current.map((e) => e.value);
       const otp = otpArray.join("");
 
+      // Get token from localStorage
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Authentication required. Please login again.");
+        navigate("/login");
+        return;
+      }
+
       const { data } = await axios.post(
         backendUrl + "/api/auth/verify-account",
-        { otp }
+        { otp },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       if (data.success) {
         toast.success(data.message);
         getUserData();
@@ -52,12 +67,13 @@ const EmailVerify = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(data.message);
+      // Fix: Use 'error' instead of 'data' in catch block
+      toast.error(error.response?.data?.message || "Verification failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen  bg-gradient-to-br from-blue-200 to-purple-400">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
       <img
         onClick={() => navigate("/")}
         src={assets.logo}
