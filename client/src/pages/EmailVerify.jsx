@@ -1,7 +1,13 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import axios from "axios";
+import { useContext } from "react";
+import { AppContent } from "../context/AppContext";
 
 const EmailVerify = () => {
+  axios.defaults.withCredentials = true;
+  const { backendUrl, isLoggedIn, userData, getUserData } =
+    useContext(AppContent);
   const inputRefs = React.useRef([]);
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
@@ -29,6 +35,15 @@ const EmailVerify = () => {
       e.preventDefault();
       const otpArray = inputRefs.current.map((e) => e.value);
       const otp = otpArray.join("");
+
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/verify-account",
+        { otp }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        getUserData();
+      }
     } catch (error) {}
   };
 
