@@ -27,6 +27,7 @@ const EmailVerify = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+      const otpArray = inputRefs.current.map((e) => e.value);
     } catch (error) {}
   };
 
