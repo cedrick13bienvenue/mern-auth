@@ -1,10 +1,12 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ResetPassword = () => {
   // ✅ Move the hook call inside the component
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
@@ -28,6 +30,9 @@ const ResetPassword = () => {
             type="email"
             placeholder="Email ID"
             className="bg-transparent outline-none text-white"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
       </form>
