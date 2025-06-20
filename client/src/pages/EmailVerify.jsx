@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AppContent } from "../context/AppContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const EmailVerify = () => {
   const { backendUrl, isLoggedin, userData, getUserData } =
@@ -71,6 +72,10 @@ const EmailVerify = () => {
       toast.error(error.response?.data?.message || "Verification failed");
     }
   };
+
+  useEffect(() => {
+    isLoggedin && userData && userData.isAccountVerified && navigate("/");
+  }, [isLoggedin, userData]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
