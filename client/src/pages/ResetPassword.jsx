@@ -34,6 +34,9 @@ const ResetPassword = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <button className="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-900 text-white rounded-full mt-3">
+            Submit
+          </button>
         </div>
       </form>
     </div>
