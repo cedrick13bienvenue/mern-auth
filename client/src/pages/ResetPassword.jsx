@@ -3,9 +3,11 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AppContent } from "../context/AppContext";
+import axios from "axios";
 
 const ResetPassword = () => {
   const { backendUrl } = useContext(AppContent);
+  axios.defaults.withCredentials = true;
 
   // ✅ Move the hook call inside the component
   const navigate = useNavigate();
