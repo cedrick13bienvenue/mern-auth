@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { AppContent } from "../context/AppContext";
 
 const ResetPassword = () => {
+  const { backendUrl } = useContext(AppContent);
+
   // ✅ Move the hook call inside the component
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
