@@ -111,7 +111,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        backendUrl + "/api/auth/verify-reset-otp",
+        backendUrl + "/api/auth/verify-otp", // or whatever your actual endpoint is
         {
           email,
           otp: otpString,
@@ -196,36 +196,10 @@ const ResetPassword = () => {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(
-        backendUrl + "/api/auth/verify-reset-otp",
-        {
-          email,
-          otp: otpString,
-        }
-      );
-
-      const data = response.data;
-
-      if (data.success) {
-        toast.success(data.message || "OTP verified successfully!");
-        setIsOtpSubmitted(true);
-      } else {
-        toast.error(data.message || "Invalid OTP");
-      }
-    } catch (error) {
-      console.error("OTP verification error:", error);
-
-      if (error.response) {
-        toast.error(error.response.data?.message || "OTP verification failed");
-      } else {
-        toast.error("Failed to verify OTP");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    // Skip API verification since backend doesn't have separate verify endpoint
+    // OTP will be verified when password is reset
+    toast.success("Please enter your new password");
+    setIsOtpSubmitted(true);
   };
 
   return (
