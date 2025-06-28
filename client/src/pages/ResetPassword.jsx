@@ -185,6 +185,7 @@ const ResetPassword = () => {
     e.preventDefault();
     const ArrayOTP = inputRefs.current.map((e) => e.value);
     setOtp(ArrayOTP.join(""));
+    setIsOtpSubmitted(true);
   };
 
   return (
