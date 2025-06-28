@@ -181,7 +181,10 @@ const ResetPassword = () => {
     }
   };
 
-  const onSubmitOTP = async (e) => {};
+  const onSubmitOTP = async (e) => {
+    e.preventDefault();
+    const ArrayOTP = inputRefs.current.map((e) => e.value);
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
