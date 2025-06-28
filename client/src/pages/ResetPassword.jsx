@@ -184,8 +184,48 @@ const ResetPassword = () => {
   const onSubmitOTP = async (e) => {
     e.preventDefault();
     const ArrayOTP = inputRefs.current.map((e) => e.value);
-    setOtp(ArrayOTP.join(""));
-    setIsOtpSubmitted(true);
+    const newOtp = [...otp];
+    ArrayOTP.forEach((value, index) => {
+      newOtp[index] = value;
+    });
+    setOtp(newOtp);
+
+    const otpString = ArrayOTP.join("");
+    if (otpString.length !== 6) {
+      toast.error("Please enter complete 6-digit OTP");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(
+        backendUrl + "/api/auth/verify-reset-otp",
+        {
+          email,
+          otp: otpString,
+        }
+      );
+
+      const data = response.data;
+
+      if (data.success) {
+        toast.success(data.message || "OTP verified successfully!");
+        setIsOtpSubmitted(true);
+      } else {
+        toast.error(data.message || "Invalid OTP");
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+
+      if (error.response) {
+        toast.error(error.response.data?.message || "OTP verification failed");
+      } else {
+        toast.error("Failed to verify OTP");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
