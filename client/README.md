@@ -1,12 +1,147 @@
-# React + Vite
+# MERN Auth App 🔐
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack authentication system built with the MERN stack (MongoDB, Express, React, Node.js) that supports user registration, login, logout, protected routes, and JWT-based authentication. Includes Swagger API docs and email verification.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live URLs
 
-## Expanding the ESLint configuration
+- **Frontend** (Vercel): [https://authentic-mern.vercel.app](https://authentic-mern.vercel.app)
+- **Backend** (Render): [https://mern-auth-3rp7.onrender.com](https://mern-auth-3rp7.onrender.com)
+- **API Docs** (Swagger): [https://mern-auth-3rp7.onrender.com/documentation](https://mern-auth-3rp7.onrender.com/documentation)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+| Layer    | Tech                                 |
+| -------- | ------------------------------------ |
+| Frontend | React + Vite                         |
+| Backend  | Express.js + Node.js                 |
+| Auth     | JWT + Cookies                        |
+| Database | MongoDB Atlas                        |
+| Email    | Nodemailer (SMTP via Brevo)          |
+| Hosting  | Vercel (frontend) + Render (backend) |
+
+---
+
+## 📦 Features
+
+- ✅ User registration & login
+- ✅ JWT + HTTP-only cookies
+- ✅ Email verification via SMTP (Brevo)
+- ✅ Password reset via OTP
+- ✅ Swagger API documentation
+- ✅ CORS and environment-based configuration
+- ✅ Full deployment on Vercel & Render
+
+---
+
+## 📁 Project Structure
+
+```
+mern-auth-app/
+├── client/                 # Frontend (React + Vite)
+│   └── ...
+├── server/                 # Backend (Express.js)
+│   ├── config/
+│   │   └── mongodb.js
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   ├── utils/
+│   ├── server.js
+│   └── .env
+└── README.md
+```
+
+---
+
+## 🔐 Environment Variables
+
+### Backend (`server/.env`)
+
+```env
+PORT=4000
+MONGODB_URI=your_mongo_uri
+JWT_SECRET=your_jwt_secret
+
+SMTP_USER=your_brevo_user
+SMTP_PASS=your_brevo_password
+SENDER_EMAIL=your_verified_sender_email
+```
+
+### Frontend (`client/.env`)
+
+```env
+VITE_BACKEND_URL=https://mern-auth-3rp7.onrender.com
+```
+
+---
+
+## 🚀 Local Development
+
+### Prerequisites:
+
+- Node.js v18+
+- MongoDB Atlas account
+- Brevo SMTP account
+
+### Backend
+
+```bash
+cd server
+npm install
+npm run serve
+```
+
+### Frontend
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
+## 📤 Deployment
+
+### Backend (Render)
+
+- Create a new Web Service
+- Set build command: `npm install`
+- Set start command: `node server.js`
+- Add environment variables from `.env`
+
+### Frontend (Vercel)
+
+- Set framework: Vite
+- Set `VITE_BACKEND_URL` in project settings
+- Add a `vercel.json` file:
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
+
+---
+
+## 🧪 API Documentation
+
+Swagger UI is available at:
+📄 `/documentation`
+
+---
+
+## ✨ Credits
+
+Built by **Bienvenue Cedrick**  
+💼 Student Software Engineer | Backend & DevOps Enthusiast
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
