@@ -11,12 +11,10 @@ import swaggerUi from "swagger-ui-express";
 const app = express();
 const port = process.env.PORT || 4000;
 
-connectDB();
-
 const allowedOrigins = [
-  "http://localhost:5173", // local dev
-  "https://authentic-mern.vercel.app", // your deployed frontend
-  "https://mern-auth-3rp7.onrender.com", // backend itself (for swagger etc)
+  "http://localhost:5173", // Local development frontend
+  "https://authentic-mern.vercel.app", // Your deployed frontend domain
+  "https://mern-auth-3rp7.onrender.com", // Backend domain itself (Swagger, testing)
 ];
 
 app.use(
@@ -47,6 +45,7 @@ const swaggerOptions = {
   },
   apis: ["./routes/*.js", "./controllers/*.js", "./model/*.js"],
 };
+
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.get("/swagger.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -69,4 +68,10 @@ app.get("/", (req, res) => res.send("API is working!"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+// Start server only after DB connection
+const startServer = async () => {
+  await connectDB();
+  app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+};
+
+startServer();
