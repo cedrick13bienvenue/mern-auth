@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import { EMAIL_VERIFY_TEMPLATE } from "../config/emailTemplates.js";
 
 export const register = async (req, res) => {
   try {
