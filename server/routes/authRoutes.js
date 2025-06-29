@@ -39,7 +39,7 @@ authRouter.post("/register", register);
  *             - email
  *     responses:
  *       200:
- *         description: hello world
+ *         description: User profile fetched successfully
  */
 authRouter.post("/login", login);
 authRouter.post("/logout", logout);
@@ -62,7 +62,7 @@ authRouter.post("/reset-password", resetPassword);
  *       - bearerAuth: -[]
  *     responses:
  *       200:
- *         description: hello world
+ *         description: User profile fetched successfully
  */
 authRouter.get("/me", userAuth, getMe);
 
