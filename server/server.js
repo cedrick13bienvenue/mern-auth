@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
-import connectDB from "./config/mondodb.js"; // Match your existing file name
+import connectDB from "./config/mondodb.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import swaggerJsDoc from "swagger-jsdoc";
@@ -13,7 +13,18 @@ const port = process.env.PORT || 4000;
 
 connectDB();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://authentic-mern.vercel.app", // your deployed frontend
+  "https://mern-auth-3rp7.onrender.com", // backend itself (for swagger etc)
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -22,8 +33,8 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "app description",
     },
-    schemes: ["http"],
-    host: "localhost:4000",
+    schemes: ["https"],
+    host: "mern-auth-3rp7.onrender.com",
     basePath: "/api",
     securityDefinitions: {
       bearerAuth: {
@@ -37,7 +48,7 @@ const swaggerOptions = {
   apis: ["./routes/*.js", "./controllers/*.js", "./model/*.js"],
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.get("/swagger.json", function (req, res) {
+app.get("/swagger.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerDocs);
 });
@@ -52,10 +63,9 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // API EndPoints
-app.get("/", (req, res) => res.send("API Working"));
+app.get("/", (req, res) => res.send("API is working!"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
