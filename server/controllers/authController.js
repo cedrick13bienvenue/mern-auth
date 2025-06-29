@@ -194,7 +194,11 @@ export const sendVerifyOtp = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "Account Verification OTP",
-      text: `Your OTP is ${otp}. Verify your account using this OTP.\n\nBest regards,`,
+      // text: `Your OTP is ${otp}. Verify your account using this OTP.\n\nBest regards,`,
+      html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
+        "{{email}}",
+        user.email
+      ),
     };
 
     await transporter.sendMail(mailOption);
@@ -298,7 +302,11 @@ export const sendResetOtp = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "Password Reset OTP",
-      text: `Your OTP for password reset is ${otp}. It is valid for 15 minutes.\n\nBest regards,`,
+      // text: `Your OTP for password reset is ${otp}. It is valid for 15 minutes.\n\nBest regards,`,
+      html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace(
+        "{{email}}",
+        user.email
+      ),
     };
 
     await transporter.sendMail(mailOption);
